@@ -42,15 +42,18 @@ function getLocalIP() {
   return 'localhost';
 }
 
-// 启动服务器 - 监听所有网络接口 (0.0.0.0)
-app.listen(PORT, '0.0.0.0', () => {
-  const localIP = getLocalIP();
-  console.log(`===================================`);
-  console.log(`🚀 服务器已启动！`);
-  console.log(`📍 本机访问: http://localhost:${PORT}`);
-  console.log(`📱 局域网访问: http://${localIP}:${PORT}`);
-  console.log(`⏰ 启动时间: ${new Date().toLocaleString()}`);
-  console.log(`===================================`);
-});
+// 本地开发环境启动服务器
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, '0.0.0.0', () => {
+    const localIP = getLocalIP();
+    console.log(`===================================`);
+    console.log(`🚀 服务器已启动！`);
+    console.log(`📍 本机访问: http://localhost:${PORT}`);
+    console.log(`📱 局域网访问: http://${localIP}:${PORT}`);
+    console.log(`⏰ 启动时间: ${new Date().toLocaleString()}`);
+    console.log(`===================================`);
+  });
+}
 
+// 导出app供Vercel使用
 module.exports = app;
