@@ -1,0 +1,364 @@
+{
+  "questions": [
+    {
+      "id": "q1",
+      "category": "身体状况",
+      "question": "您是否经常感到疲劳、乏力？",
+      "options": [
+        { "text": "非常符合", "value": 5 },
+        { "text": "比较符合", "value": 4 },
+        { "text": "一般", "value": 3 },
+        { "text": "不太符合", "value": 2 },
+        { "text": "完全不符", "value": 1 }
+      ]
+    },
+    {
+      "id": "q2",
+      "category": "身体状况",
+      "question": "您是否容易怕冷，手脚冰凉？",
+      "options": [
+        { "text": "非常符合", "value": 5 },
+        { "text": "比较符合", "value": 4 },
+        { "text": "一般", "value": 3 },
+        { "text": "不太符合", "value": 2 },
+        { "text": "完全不符", "value": 1 }
+      ]
+    },
+    {
+      "id": "q3",
+      "category": "身体状况",
+      "question": "您是否经常手脚心发热、口干咽燥？",
+      "options": [
+        { "text": "非常符合", "value": 5 },
+        { "text": "比较符合", "value": 4 },
+        { "text": "一般", "value": 3 },
+        { "text": "不太符合", "value": 2 },
+        { "text": "完全不符", "value": 1 }
+      ]
+    },
+    {
+      "id": "q4",
+      "category": "体型外观",
+      "question": "您的体型是否偏胖，腹部松软？",
+      "options": [
+        { "text": "非常符合", "value": 5 },
+        { "text": "比较符合", "value": 4 },
+        { "text": "一般", "value": 3 },
+        { "text": "不太符合", "value": 2 },
+        { "text": "完全不符", "value": 1 }
+      ]
+    },
+    {
+      "id": "q5",
+      "category": "面部特征",
+      "question": "您的面部是否容易出油、长痘？",
+      "options": [
+        { "text": "非常符合", "value": 5 },
+        { "text": "比较符合", "value": 4 },
+        { "text": "一般", "value": 3 },
+        { "text": "不太符合", "value": 2 },
+        { "text": "完全不符", "value": 1 }
+      ]
+    },
+    {
+      "id": "q6",
+      "category": "情绪状态",
+      "question": "您是否经常感到情绪低落、郁闷不乐？",
+      "options": [
+        { "text": "非常符合", "value": 5 },
+        { "text": "比较符合", "value": 4 },
+        { "text": "一般", "value": 3 },
+        { "text": "不太符合", "value": 2 },
+        { "text": "完全不符", "value": 1 }
+      ]
+    },
+    {
+      "id": "q7",
+      "category": "过敏情况",
+      "question": "您是否容易过敏（如花粉、食物、药物）？",
+      "options": [
+        { "text": "非常符合", "value": 5 },
+        { "text": "比较符合", "value": 4 },
+        { "text": "一般", "value": 3 },
+        { "text": "不太符合", "value": 2 },
+        { "text": "完全不符", "value": 1 }
+      ]
+    },
+    {
+      "id": "q8",
+      "category": "面部特征",
+      "question": "您的肤色是否晦暗，容易有色斑？",
+      "options": [
+        { "text": "非常符合", "value": 5 },
+        { "text": "比较符合", "value": 4 },
+        { "text": "一般", "value": 3 },
+        { "text": "不太符合", "value": 2 },
+        { "text": "完全不符", "value": 1 }
+      ]
+    },
+    {
+      "id": "q9",
+      "category": "身体状况",
+      "question": "您是否容易气短（呼吸短促、接不上气）？",
+      "options": [
+        { "text": "非常符合", "value": 5 },
+        { "text": "比较符合", "value": 4 },
+        { "text": "一般", "value": 3 },
+        { "text": "不太符合", "value": 2 },
+        { "text": "完全不符", "value": 1 }
+      ]
+    },
+    {
+      "id": "q10",
+      "category": "身体状况",
+      "question": "您是否容易感冒，病后恢复慢？",
+      "options": [
+        { "text": "非常符合", "value": 5 },
+        { "text": "比较符合", "value": 4 },
+        { "text": "一般", "value": 3 },
+        { "text": "不太符合", "value": 2 },
+        { "text": "完全不符", "value": 1 }
+      ]
+    },
+    {
+      "id": "q11",
+      "category": "睡眠质量",
+      "question": "您的睡眠质量如何？是否容易失眠或多梦？",
+      "options": [
+        { "text": "经常失眠", "value": 5 },
+        { "text": "偶尔失眠", "value": 4 },
+        { "text": "一般", "value": 3 },
+        { "text": "睡眠较好", "value": 2 },
+        { "text": "睡眠很好", "value": 1 }
+      ]
+    },
+    {
+      "id": "q12",
+      "category": "消化系统",
+      "question": "您的食欲如何？是否容易腹胀？",
+      "options": [
+        { "text": "食欲差，常腹胀", "value": 5 },
+        { "text": "食欲一般，偶尔腹胀", "value": 4 },
+        { "text": "正常", "value": 3 },
+        { "text": "食欲较好", "value": 2 },
+        { "text": "食欲很好", "value": 1 }
+      ]
+    },
+    {
+      "id": "q13",
+      "category": "身体状况",
+      "question": "您是否容易出汗？",
+      "options": [
+        { "text": "非常容易", "value": 5 },
+        { "text": "比较容易", "value": 4 },
+        { "text": "正常", "value": 3 },
+        { "text": "不太容易", "value": 2 },
+        { "text": "很少出汗", "value": 1 }
+      ]
+    },
+    {
+      "id": "q14",
+      "category": "口腔",
+      "question": "您是否经常口苦、口臭？",
+      "options": [
+        { "text": "非常符合", "value": 5 },
+        { "text": "比较符合", "value": 4 },
+        { "text": "一般", "value": 3 },
+        { "text": "不太符合", "value": 2 },
+        { "text": "完全不符", "value": 1 }
+      ]
+    },
+    {
+      "id": "q15",
+      "category": "身体状况",
+      "question": "您是否容易头晕、头痛？",
+      "options": [
+        { "text": "非常符合", "value": 5 },
+        { "text": "比较符合", "value": 4 },
+        { "text": "一般", "value": 3 },
+        { "text": "不太符合", "value": 2 },
+        { "text": "完全不符", "value": 1 }
+      ]
+    },
+    {
+      "id": "q16",
+      "category": "情绪状态",
+      "question": "您是否容易紧张、焦虑？",
+      "options": [
+        { "text": "非常符合", "value": 5 },
+        { "text": "比较符合", "value": 4 },
+        { "text": "一般", "value": 3 },
+        { "text": "不太符合", "value": 2 },
+        { "text": "完全不符", "value": 1 }
+      ]
+    },
+    {
+      "id": "q17",
+      "category": "体型外观",
+      "question": "您是否感觉身体沉重、不轻松？",
+      "options": [
+        { "text": "非常符合", "value": 5 },
+        { "text": "比较符合", "value": 4 },
+        { "text": "一般", "value": 3 },
+        { "text": "不太符合", "value": 2 },
+        { "text": "完全不符", "value": 1 }
+      ]
+    },
+    {
+      "id": "q18",
+      "category": "身体状况",
+      "question": "您是否容易腰酸背痛？",
+      "options": [
+        { "text": "非常符合", "value": 5 },
+        { "text": "比较符合", "value": 4 },
+        { "text": "一般", "value": 3 },
+        { "text": "不太符合", "value": 2 },
+        { "text": "完全不符", "value": 1 }
+      ]
+    },
+    {
+      "id": "q19",
+      "category": "消化系统",
+      "question": "您的大便情况如何？",
+      "options": [
+        { "text": "经常便秘或腹泻", "value": 5 },
+        { "text": "偶尔不正常", "value": 4 },
+        { "text": "基本正常", "value": 3 },
+        { "text": "比较正常", "value": 2 },
+        { "text": "非常正常", "value": 1 }
+      ]
+    },
+    {
+      "id": "q20",
+      "category": "季节适应",
+      "question": "您在季节变化时是否容易生病？",
+      "options": [
+        { "text": "非常容易", "value": 5 },
+        { "text": "比较容易", "value": 4 },
+        { "text": "一般", "value": 3 },
+        { "text": "不太容易", "value": 2 },
+        { "text": "很少生病", "value": 1 }
+      ]
+    },
+    {
+      "id": "q21",
+      "category": "身体状况",
+      "question": "您是否容易感到胸闷、叹气？",
+      "options": [
+        { "text": "非常符合", "value": 5 },
+        { "text": "比较符合", "value": 4 },
+        { "text": "一般", "value": 3 },
+        { "text": "不太符合", "value": 2 },
+        { "text": "完全不符", "value": 1 }
+      ]
+    },
+    {
+      "id": "q22",
+      "category": "面部特征",
+      "question": "您的眼睛是否容易干涩？",
+      "options": [
+        { "text": "非常符合", "value": 5 },
+        { "text": "比较符合", "value": 4 },
+        { "text": "一般", "value": 3 },
+        { "text": "不太符合", "value": 2 },
+        { "text": "完全不符", "value": 1 }
+      ]
+    },
+    {
+      "id": "q23",
+      "category": "身体状况",
+      "question": "您是否容易四肢麻木？",
+      "options": [
+        { "text": "非常符合", "value": 5 },
+        { "text": "比较符合", "value": 4 },
+        { "text": "一般", "value": 3 },
+        { "text": "不太符合", "value": 2 },
+        { "text": "完全不符", "value": 1 }
+      ]
+    },
+    {
+      "id": "q24",
+      "category": "情绪状态",
+      "question": "您是否容易烦躁易怒？",
+      "options": [
+        { "text": "非常符合", "value": 5 },
+        { "text": "比较符合", "value": 4 },
+        { "text": "一般", "value": 3 },
+        { "text": "不太符合", "value": 2 },
+        { "text": "完全不符", "value": 1 }
+      ]
+    },
+    {
+      "id": "q25",
+      "category": "身体状况",
+      "question": "您是否容易心慌、心悸？",
+      "options": [
+        { "text": "非常符合", "value": 5 },
+        { "text": "比较符合", "value": 4 },
+        { "text": "一般", "value": 3 },
+        { "text": "不太符合", "value": 2 },
+        { "text": "完全不符", "value": 1 }
+      ]
+    },
+    {
+      "id": "q26",
+      "category": "面部特征",
+      "question": "您的嘴唇颜色是否暗淡或发紫？",
+      "options": [
+        { "text": "非常符合", "value": 5 },
+        { "text": "比较符合", "value": 4 },
+        { "text": "一般", "value": 3 },
+        { "text": "不太符合", "value": 2 },
+        { "text": "完全不符", "value": 1 }
+      ]
+    },
+    {
+      "id": "q27",
+      "category": "身体状况",
+      "question": "您的身体是否容易出现淤青？",
+      "options": [
+        { "text": "非常容易", "value": 5 },
+        { "text": "比较容易", "value": 4 },
+        { "text": "一般", "value": 3 },
+        { "text": "不太容易", "value": 2 },
+        { "text": "很少", "value": 1 }
+      ]
+    },
+    {
+      "id": "q28",
+      "category": "体型外观",
+      "question": "您的体重是否容易增加且难以减轻？",
+      "options": [
+        { "text": "非常符合", "value": 5 },
+        { "text": "比较符合", "value": 4 },
+        { "text": "一般", "value": 3 },
+        { "text": "不太符合", "value": 2 },
+        { "text": "完全不符", "value": 1 }
+      ]
+    },
+    {
+      "id": "q29",
+      "category": "身体状况",
+      "question": "您是否容易感到咽喉不适、有痰？",
+      "options": [
+        { "text": "非常符合", "value": 5 },
+        { "text": "比较符合", "value": 4 },
+        { "text": "一般", "value": 3 },
+        { "text": "不太符合", "value": 2 },
+        { "text": "完全不符", "value": 1 }
+      ]
+    },
+    {
+      "id": "q30",
+      "category": "消化系统",
+      "question": "您是否容易恶心、呕吐？",
+      "options": [
+        { "text": "非常符合", "value": 5 },
+        { "text": "比较符合", "value": 4 },
+        { "text": "一般", "value": 3 },
+        { "text": "不太符合", "value": 2 },
+        { "text": "完全不符", "value": 1 }
+      ]
+    }
+  ]
+}

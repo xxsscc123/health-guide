@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>中医体质健康指南</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="container">
+    <!-- 头部 -->
+    <header class="header">
+      <h1>中医体质健康指南</h1>
+      <p class="subtitle">了解您的体质，科学调理</p>
+    </header>
+
+    <!-- 主要内容 -->
+    <main class="main-content">
+      <!-- 介绍卡片 -->
+      <div class="intro-card">
+        <h2>什么是中医体质？</h2>
+        <p>中医体质学说将人的体质分为9种基本类型：平和质、气虚质、阳虚质、阴虚质、痰湿质、湿热质、血瘀质、气郁质、特禀质。</p>
+        <p>不同的体质类型有不同的生理特点和疾病倾向，通过体质辨识可以进行针对性的健康调理。</p>
+      </div>
+
+      <!-- 测试流程 -->
+      <div class="process-card">
+        <h2>测试流程</h2>
+        <div class="steps">
+          <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-title">舌苔分析</div>
+            <div class="step-desc">通过舌苔特征初步判断</div>
+          </div>
+          <div class="step-arrow">→</div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-title">问卷调查</div>
+            <div class="step-desc">回答30个问题</div>
+          </div>
+          <div class="step-arrow">→</div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-title">体质判定</div>
+            <div class="step-desc">综合分析得出结果</div>
+          </div>
+          <div class="step-arrow">→</div>
+          <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-title">调理方案</div>
+            <div class="step-desc">个性化健康建议</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 开始按钮 -->
+      <div class="action-section">
+        <button class="btn-primary btn-large" onclick="startTest()">
+          开始测试
+        </button>
+        <p class="test-time">预计需要 5-10 分钟</p>
+      </div>
+
+      <!-- 九种体质简介 -->
+      <div class="constitution-types">
+        <h2>九种体质类型</h2>
+        <div class="types-grid">
+          <div class="type-card">
+            <div class="type-icon">🌟</div>
+            <h3>平和质</h3>
+            <p>健康体质</p>
+          </div>
+          <div class="type-card">
+            <div class="type-icon">😮‍💨</div>
+            <h3>气虚质</h3>
+            <p>容易疲劳</p>
+          </div>
+          <div class="type-card">
+            <div class="type-icon">🥶</div>
+            <h3>阳虚质</h3>
+            <p>畏寒怕冷</p>
+          </div>
+          <div class="type-card">
+            <div class="type-icon">🔥</div>
+            <h3>阴虚质</h3>
+            <p>手脚心热</p>
+          </div>
+          <div class="type-card">
+            <div class="type-icon">💧</div>
+            <h3>痰湿质</h3>
+            <p>体型肥胖</p>
+          </div>
+          <div class="type-card">
+            <div class="type-icon">💦</div>
+            <h3>湿热质</h3>
+            <p>面部油腻</p>
+          </div>
+          <div class="type-card">
+            <div class="type-icon">🩸</div>
+            <h3>血瘀质</h3>
+            <p>肤色晦暗</p>
+          </div>
+          <div class="type-card">
+            <div class="type-icon">😔</div>
+            <h3>气郁质</h3>
+            <p>情绪低落</p>
+          </div>
+          <div class="type-card">
+            <div class="type-icon">🤧</div>
+            <h3>特禀质</h3>
+            <p>过敏体质</p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+      <p>注意：本工具仅供参考，不能替代医生诊断</p>
+      <p>如有疾病请及时就医</p>
+    </footer>
+  </div>
+
+  <script>
+    function startTest() {
+      window.location.href = 'tongue.html';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>体质分析结果 - 中医体质健康指南</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="container">
+    <!-- 头部 -->
+    <header class="header">
+      <h1>您的体质分析结果</h1>
+      <p class="subtitle">第三步：了解您的体质类型</p>
+    </header>
+
+    <!-- 主要内容 -->
+    <main class="main-content">
+      <div class="result-container">
+        <!-- 主要体质 -->
+        <div class="result-header">
+          <div class="result-title" id="primaryType">正在分析...</div>
+          <div class="result-subtitle" id="primaryDesc"></div>
+        </div>
+
+        <!-- 体质说明 -->
+        <div class="result-card" id="descriptionCard" style="display:none;">
+          <h3>📋 体质特征</h3>
+          <p id="constitutionDesc"></p>
+          <h4 style="margin-top: 20px; margin-bottom: 10px;">主要表现：</h4>
+          <ul class="characteristics" id="characteristicsList"></ul>
+        </div>
+
+        <!-- 次要体质 -->
+        <div class="result-card" id="secondaryCard" style="display:none;">
+          <h3>🔍 次要体质倾向</h3>
+          <p>您还有 <strong id="secondaryType"></strong> 的倾向，建议也适当注意该体质的调理方法。</p>
+        </div>
+
+        <!-- 体质得分 -->
+        <div class="result-card" id="scoresCard" style="display:none;">
+          <h3>📊 各体质得分分析</h3>
+          <div class="score-grid" id="scoresGrid"></div>
+        </div>
+
+        <!-- 操作按钮 -->
+        <div class="action-section" id="actionButtons" style="display:none;">
+          <button class="btn-primary btn-large" onclick="viewPlan()">
+            查看详细调理方案
+          </button>
+          <br><br>
+          <button class="btn-secondary" onclick="restartTest()">
+            重新测试
+          </button>
+        </div>
+
+        <!-- 加载动画 -->
+        <div class="loading" id="loading">
+          <div class="spinner"></div>
+          <p style="margin-top: 20px; color: #666;">正在分析您的体质...</p>
+        </div>
+      </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+      <p>注意：体质分析结果仅供参考，不能替代医生诊断</p>
+      <p>如有疾病请及时就医</p>
+    </footer>
+  </div>
+
+  <script>
+    // 体质类型说明
+    const constitutionInfo = {
+      '平和质': {
+        description: '健康体质，阴阳气血调和，以体态适中、面色红润、精力充沛等为主要特征。',
+        icon: '🌟'
+      },
+      '气虚质': {
+        description: '元气不足，以疲乏、气短、自汗等气虚表现为主要特征。',
+        icon: '😮‍💨'
+      },
+      '阳虚质': {
+        description: '阳气不足，以畏寒怕冷、手足不温等虚寒表现为主要特征。',
+        icon: '🥶'
+      },
+      '阴虚质': {
+        description: '阴液亏损，以口燥咽干、手足心热等虚热表现为主要特征。',
+        icon: '🔥'
+      },
+      '痰湿质': {
+        description: '痰湿凝聚，以体形肥胖、腹部肥满、口黏苔腻等痰湿表现为主要特征。',
+        icon: '💧'
+      },
+      '湿热质': {
+        description: '湿热内蕴，以面垢油光、口苦、苔黄腻等湿热表现为主要特征。',
+        icon: '💦'
+      },
+      '血瘀质': {
+        description: '血行不畅，以肤色晦黯、舌质紫黯等血瘀表现为主要特征。',
+        icon: '🩸'
+      },
+      '气郁质': {
+        description: '气机郁滞，以神情抑郁、忧虑脆弱等气郁表现为主要特征。',
+        icon: '😔'
+      },
+      '特禀质': {
+        description: '先天失常，以生理缺陷、过敏反应等为主要特征。',
+        icon: '🤧'
+      }
+    };
+
+    // 页面加载时显示结果
+    window.addEventListener('DOMContentLoaded', function() {
+      // 获取分析结果
+      const resultData = localStorage.getItem('analysisResult');
+
+      if (!resultData) {
+        alert('未找到分析结果，请重新测试');
+        window.location.href = 'index.html';
+        return;
+      }
+
+      try {
+        const result = JSON.parse(resultData);
+        displayResult(result);
+      } catch (error) {
+        console.error('解析结果失败:', error);
+        alert('结果数据错误，请重新测试');
+        window.location.href = 'index.html';
+      }
+    });
+
+    // 显示结果
+    function displayResult(result) {
+      // 隐藏加载动画
+      document.getElementById('loading').style.display = 'none';
+
+      const primaryType = result.primary.type;
+      const secondaryType = result.secondary.type;
+
+      // 显示主要体质
+      const info = constitutionInfo[primaryType];
+      document.getElementById('primaryType').textContent = info.icon + ' ' + primaryType;
+      document.getElementById('primaryDesc').textContent = info.description;
+
+      // 显示体质说明
+      document.getElementById('constitutionDesc').textContent = info.description;
+      document.getElementById('descriptionCard').style.display = 'block';
+
+      // 显示次要体质
+      if (result.secondary.score > 0) {
+        document.getElementById('secondaryType').textContent = secondaryType;
+        document.getElementById('secondaryCard').style.display = 'block';
+      }
+
+      // 显示得分
+      displayScores(result.allScores);
+      document.getElementById('scoresCard').style.display = 'block';
+
+      // 显示按钮
+      document.getElementById('actionButtons').style.display = 'block';
+
+      // 保存主要体质类型，供调理方案页面使用
+      localStorage.setItem('primaryConstitution', primaryType);
+    }
+
+    // 显示得分
+    function displayScores(scores) {
+      const scoresGrid = document.getElementById('scoresGrid');
+      scoresGrid.innerHTML = '';
+
+      // 按分数排序
+      const sortedScores = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+
+      sortedScores.forEach(([type, score]) => {
+        const scoreItem = document.createElement('div');
+        scoreItem.className = 'score-item';
+
+        const label = document.createElement('div');
+        label.className = 'score-label';
+        label.textContent = type;
+
+        const bar = document.createElement('div');
+        bar.className = 'score-bar';
+
+        const barFill = document.createElement('div');
+        barFill.className = 'score-bar-fill';
+
+        // 找出最高分用于计算百分比
+        const maxScore = sortedScores[0][1];
+        const percentage = maxScore > 0 ? (score / maxScore) * 100 : 0;
+        barFill.style.width = percentage + '%';
+
+        bar.appendChild(barFill);
+
+        const value = document.createElement('div');
+        value.className = 'score-value';
+        value.textContent = Math.round(score) + ' 分';
+
+        scoreItem.appendChild(label);
+        scoreItem.appendChild(bar);
+        scoreItem.appendChild(value);
+
+        scoresGrid.appendChild(scoreItem);
+      });
+    }
+
+    // 查看调理方案
+    function viewPlan() {
+      window.location.href = 'plan.html';
+    }
+
+    // 重新测试
+    function restartTest() {
+      if (confirm('确定要重新测试吗？当前结果将被清除。')) {
+        localStorage.removeItem('tongueData');
+        localStorage.removeItem('analysisResult');
+        localStorage.removeItem('primaryConstitution');
+        window.location.href = 'index.html';
+      }
+    }
+  </script>
+</body>
+</html>
