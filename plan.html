@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>调理方案 - 中医体质健康指南</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="container">
+    <!-- 头部 -->
+    <header class="header">
+      <h1 id="constitutionTitle">调理方案</h1>
+      <p class="subtitle">第四步：根据您的体质科学调理</p>
+    </header>
+
+    <!-- 主要内容 -->
+    <main class="main-content">
+      <div class="plan-container">
+        <!-- 标签页 -->
+        <div class="tabs">
+          <div class="tab active" onclick="switchTab('diet')">🍽️ 饮食调理</div>
+          <div class="tab" onclick="switchTab('exercise')">🏃 运动建议</div>
+          <div class="tab" onclick="switchTab('lifestyle')">🏠 生活起居</div>
+          <div class="tab" onclick="switchTab('acupoints')">🫶 穴位按摩</div>
+          <div class="tab" onclick="switchTab('herbs')">🌿 中药调理</div>
+        </div>
+
+        <!-- 加载动画 -->
+        <div class="loading" id="loading">
+          <div class="spinner"></div>
+          <p style="margin-top: 20px; color: #666;">正在加载调理方案...</p>
+        </div>
+
+        <!-- 饮食调理 -->
+        <div class="tab-content active" id="diet-content">
+          <div class="result-card">
+            <h3>✅ 适宜食物</h3>
+            <div class="food-grid" id="suitableFoods"></div>
+          </div>
+
+          <div class="result-card">
+            <h3>❌ 忌食食物</h3>
+            <div class="food-grid" id="avoidFoods"></div>
+          </div>
+
+          <div class="result-card">
+            <h3>📝 推荐食谱</h3>
+            <div id="recipes"></div>
+          </div>
+
+          <div class="result-card">
+            <h3>💡 饮食小贴士</h3>
+            <ul class="characteristics" id="dietTips"></ul>
+          </div>
+        </div>
+
+        <!-- 运动建议 -->
+        <div class="tab-content" id="exercise-content">
+          <div class="result-card">
+            <h3>🎯 适合的运动</h3>
+            <div class="food-grid" id="suitableExercise"></div>
+          </div>
+
+          <div class="result-card">
+            <h3>📊 运动强度</h3>
+            <p id="exerciseIntensity"></p>
+          </div>
+
+          <div class="result-card">
+            <h3>⏰ 运动时长</h3>
+            <p id="exerciseDuration"></p>
+          </div>
+
+          <div class="result-card">
+            <h3>⚠️ 注意事项</h3>
+            <ul class="characteristics" id="exerciseNotes"></ul>
+          </div>
+
+          <div class="result-card" id="recommendedExercise">
+            <h3>💪 推荐运动</h3>
+            <div id="exerciseRecommended"></div>
+          </div>
+        </div>
+
+        <!-- 生活起居 -->
+        <div class="tab-content" id="lifestyle-content">
+          <div class="result-card">
+            <h3>😴 睡眠建议</h3>
+            <p id="sleepAdvice"></p>
+          </div>
+
+          <div class="result-card">
+            <h3>😊 情志调养</h3>
+            <p id="emotionAdvice"></p>
+          </div>
+
+          <div class="result-card">
+            <h3>🌤️ 四季养生</h3>
+            <div id="seasonAdvice"></div>
+          </div>
+
+          <div class="result-card">
+            <h3>📅 日常起居</h3>
+            <ul class="characteristics" id="dailyAdvice"></ul>
+          </div>
+        </div>
+
+        <!-- 穴位按摩 -->
+        <div class="tab-content" id="acupoints-content">
+          <div class="result-card">
+            <p style="color: #666; margin-bottom: 20px;">穴位按摩可以辅助调理体质，每天坚持按摩，效果更佳。</p>
+            <div id="acupointsList"></div>
+          </div>
+        </div>
+
+        <!-- 中药调理 -->
+        <div class="tab-content" id="herbs-content">
+          <div class="result-card">
+            <h3>🌿 常用中药方剂</h3>
+            <div id="herbsList"></div>
+          </div>
+
+          <div class="warning-box">
+            <h4>⚠️ 重要提示</h4>
+            <ul class="characteristics" id="herbsNotes"></ul>
+          </div>
+
+          <div class="warning-box" style="margin-top: 20px;">
+            <h4>🏥 健康风险提示</h4>
+            <ul class="characteristics" id="healthRisks"></ul>
+          </div>
+        </div>
+
+        <!-- 返回按钮 -->
+        <div class="action-section" style="margin-top: 40px;">
+          <button class="btn-secondary" onclick="goBack()">
+            返回结果页
+          </button>
+          <button class="btn-primary" onclick="restart()">
+            重新测试
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+      <p>注意：调理方案仅供参考，中药调理请在医生指导下进行</p>
+      <p>如有疾病请及时就医</p>
+    </footer>
+  </div>
+
+  <script>
+    let planData = null;
+
+    // 页面加载时获取调理方案
+    window.addEventListener('DOMContentLoaded', async function() {
+      const constitutionType = localStorage.getItem('primaryConstitution');
+
+      if (!constitutionType) {
+        alert('未找到体质类型，请重新测试');
+        window.location.href = 'index.html';
+        return;
+      }
+
+      // 更新标题
+      document.getElementById('constitutionTitle').textContent = constitutionType + ' 调理方案';
+
+      try {
+        // 从后端获取调理方案
+        const response = await fetch(`/api/constitution/plan/${constitutionType}`);
+        const result = await response.json();
+
+        if (result.success) {
+          planData = result.data;
+          displayPlan(planData);
+          document.getElementById('loading').style.display = 'none';
+        } else {
+          alert('获取调理方案失败');
+        }
+      } catch (error) {
+        console.error('获取方案失败:', error);
+        alert('网络错误，请检查服务器');
+      }
+    });
+
+    // 显示调理方案
+    function displayPlan(plan) {
+      // 饮食调理
+      displayDiet(plan.diet);
+
+      // 运动建议
+      displayExercise(plan.exercise);
+
+      // 生活起居
+      displayLifestyle(plan.lifestyle);
+
+      // 穴位按摩
+      displayAcupoints(plan.acupoints);
+
+      // 中药调理
+      displayHerbs(plan.herbs, plan.warnings, plan.healthRisks);
+    }
+
+    // 显示饮食调理
+    function displayDiet(diet) {
+      // 适宜食物
+      const suitableFoods = document.getElementById('suitableFoods');
+      diet.suitable.forEach(food => {
+        const item = document.createElement('div');
+        item.className = 'food-item';
+        item.textContent = food;
+        suitableFoods.appendChild(item);
+      });
+
+      // 忌食食物
+      const avoidFoods = document.getElementById('avoidFoods');
+      diet.avoid.forEach(food => {
+        const item = document.createElement('div');
+        item.className = 'food-item';
+        item.style.background = '#ffebee';
+        item.textContent = food;
+        avoidFoods.appendChild(item);
+      });
+
+      // 推荐食谱
+      const recipes = document.getElementById('recipes');
+      diet.recipes.forEach(recipe => {
+        const card = document.createElement('div');
+        card.className = 'recipe-card';
+        card.innerHTML = `
+          <h4>${recipe.name}</h4>
+          <p><strong>食材：</strong>${recipe.ingredients.join('、')}</p>
+          <p><strong>做法：</strong><br>${recipe.method.replace(/\n/g, '<br>')}</p>
+          <p><strong>功效：</strong>${recipe.effect}</p>
+          <p><strong>频次：</strong>${recipe.frequency}</p>
+        `;
+        recipes.appendChild(card);
+      });
+
+      // 饮食小贴士
+      const tips = document.getElementById('dietTips');
+      diet.tips.forEach(tip => {
+        const li = document.createElement('li');
+        li.textContent = tip;
+        tips.appendChild(li);
+      });
+    }
+
+    // 显示运动建议
+    function displayExercise(exercise) {
+      // 适合的运动
+      const suitable = document.getElementById('suitableExercise');
+      exercise.suitable.forEach(ex => {
+        const item = document.createElement('div');
+        item.className = 'food-item';
+        item.style.background = '#e3f2fd';
+        item.textContent = ex;
+        suitable.appendChild(item);
+      });
+
+      // 运动强度
+      document.getElementById('exerciseIntensity').textContent = exercise.intensity;
+
+      // 运动时长
+      document.getElementById('exerciseDuration').textContent = exercise.duration;
+
+      // 注意事项
+      const notes = document.getElementById('exerciseNotes');
+      exercise.notes.forEach(note => {
+        const li = document.createElement('li');
+        li.textContent = note;
+        notes.appendChild(li);
+      });
+
+      // 推荐运动
+      if (exercise.recommended && exercise.recommended.length > 0) {
+        const recommended = document.getElementById('exerciseRecommended');
+        exercise.recommended.forEach(rec => {
+          const card = document.createElement('div');
+          card.className = 'recipe-card';
+          card.style.background = '#e8f5e9';
+          card.style.borderColor = '#4caf50';
+          card.innerHTML = `
+            <h4>${rec.name}</h4>
+            <p><strong>说明：</strong>${rec.description}</p>
+            <p><strong>时间：</strong>${rec.time}</p>
+          `;
+          recommended.appendChild(card);
+        });
+      } else {
+        document.getElementById('recommendedExercise').style.display = 'none';
+      }
+    }
+
+    // 显示生活起居
+    function displayLifestyle(lifestyle) {
+      // 睡眠建议
+      document.getElementById('sleepAdvice').textContent = lifestyle.sleep;
+
+      // 情志调养
+      document.getElementById('emotionAdvice').textContent = lifestyle.emotion;
+
+      // 四季养生
+      const season = document.getElementById('seasonAdvice');
+      const seasons = {
+        'spring': '🌸 春季',
+        'summer': '☀️ 夏季',
+        'autumn': '🍂 秋季',
+        'winter': '❄️ 冬季'
+      };
+
+      Object.keys(seasons).forEach(key => {
+        if (lifestyle.season[key]) {
+          const card = document.createElement('div');
+          card.className = 'recipe-card';
+          card.innerHTML = `
+            <h4>${seasons[key]}</h4>
+            <p>${lifestyle.season[key]}</p>
+          `;
+          season.appendChild(card);
+        }
+      });
+
+      // 日常起居
+      const daily = document.getElementById('dailyAdvice');
+      lifestyle.daily.forEach(advice => {
+        const li = document.createElement('li');
+        li.textContent = advice;
+        daily.appendChild(li);
+      });
+    }
+
+    // 显示穴位按摩
+    function displayAcupoints(acupoints) {
+      const list = document.getElementById('acupointsList');
+      acupoints.forEach(point => {
+        const item = document.createElement('div');
+        item.className = 'acupoint-item';
+        item.innerHTML = `
+          <h4>${point.name}</h4>
+          <p><strong>位置：</strong>${point.location}</p>
+          <p><strong>方法：</strong>${point.method}</p>
+          <p><strong>功效：</strong>${point.effect}</p>
+        `;
+        list.appendChild(item);
+      });
+    }
+
+    // 显示中药调理
+    function displayHerbs(herbs, warnings, risks) {
+      // 常用中药
+      const list = document.getElementById('herbsList');
+      herbs.common.forEach(herb => {
+        const card = document.createElement('div');
+        card.className = 'recipe-card';
+        card.style.background = '#f3e5f5';
+        card.style.borderColor = '#9c27b0';
+        card.innerHTML = `
+          <h4>${herb.name}</h4>
+          <p><strong>组成：</strong>${herb.components}</p>
+          <p><strong>功效：</strong>${herb.effect}</p>
+        `;
+        list.appendChild(card);
+      });
+
+      // 注意事项
+      const notes = document.getElementById('herbsNotes');
+      herbs.notes.forEach(note => {
+        const li = document.createElement('li');
+        li.textContent = note;
+        notes.appendChild(li);
+      });
+
+      // 健康风险
+      const risksList = document.getElementById('healthRisks');
+      if (risks && risks.length > 0) {
+        risks.forEach(risk => {
+          const li = document.createElement('li');
+          li.textContent = risk;
+          risksList.appendChild(li);
+        });
+      }
+
+      // 警告信息
+      if (warnings && warnings.length > 0) {
+        warnings.forEach(warning => {
+          const li = document.createElement('li');
+          li.textContent = warning;
+          notes.appendChild(li);
+        });
+      }
+    }
+
+    // 切换标签页
+    function switchTab(tabName) {
+      // 隐藏所有标签内容
+      const contents = document.querySelectorAll('.tab-content');
+      contents.forEach(content => {
+        content.classList.remove('active');
+      });
+
+      // 移除所有标签的active状态
+      const tabs = document.querySelectorAll('.tab');
+      tabs.forEach(tab => {
+        tab.classList.remove('active');
+      });
+
+      // 显示选中的标签内容
+      document.getElementById(tabName + '-content').classList.add('active');
+
+      // 高亮选中的标签
+      event.target.classList.add('active');
+    }
+
+    // 返回结果页
+    function goBack() {
+      window.location.href = 'result.html';
+    }
+
+    // 重新测试
+    function restart() {
+      if (confirm('确定要重新测试吗？')) {
+        localStorage.clear();
+        window.location.href = 'index.html';
+      }
+    }
+  </script>
+</body>
+</html>

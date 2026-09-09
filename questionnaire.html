@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>问卷调查 - 中医体质健康指南</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="container">
+    <!-- 头部 -->
+    <header class="header">
+      <h1>体质问卷调查</h1>
+      <p class="subtitle">第二步：回答以下问题</p>
+    </header>
+
+    <!-- 主要内容 -->
+    <main class="main-content">
+      <div class="questionnaire-container">
+        <!-- 进度条 -->
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressBar"></div>
+        </div>
+        <p class="progress-text" id="progressText">第 1 / 30 题</p>
+
+        <!-- 问题卡片 -->
+        <div class="question-card">
+          <p class="question-title" id="questionTitle">正在加载...</p>
+          <div class="options" id="optionsContainer"></div>
+        </div>
+
+        <!-- 按钮 -->
+        <div class="button-group">
+          <button class="btn-secondary" id="prevBtn" onclick="prevQuestion()" disabled>
+            上一题
+          </button>
+          <button class="btn-primary" id="nextBtn" onclick="nextQuestion()" disabled>
+            下一题
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+      <p>请根据您最近一个月的实际情况作答</p>
+    </footer>
+  </div>
+
+  <script>
+    let questions = [];
+    let currentIndex = 0;
+    let answers = [];
+
+    // 页面加载时获取问题
+    window.addEventListener('DOMContentLoaded', async function() {
+      try {
+        const response = await fetch('/api/questionnaire/questions');
+        const result = await response.json();
+
+        if (result.success) {
+          questions = result.data.questions;
+          // 初始化答案数组
+          answers = new Array(questions.length).fill(null);
+          // 显示第一题
+          showQuestion(0);
+        } else {
+          alert('加载问题失败，请刷新页面重试');
+        }
+      } catch (error) {
+        console.error('获取问题失败:', error);
+        alert('网络错误，请检查服务器是否启动');
+      }
+    });
+
+    // 显示问题
+    function showQuestion(index) {
+      const question = questions[index];
+
+      // 更新问题标题
+      document.getElementById('questionTitle').textContent = question.question;
+
+      // 更新进度
+      const progress = ((index + 1) / questions.length) * 100;
+      document.getElementById('progressBar').style.width = progress + '%';
+      document.getElementById('progressText').textContent = `第 ${index + 1} / ${questions.length} 题`;
+
+      // 渲染选项
+      const optionsContainer = document.getElementById('optionsContainer');
+      optionsContainer.innerHTML = '';
+
+      question.options.forEach((option, optIndex) => {
+        const optionDiv = document.createElement('div');
+        optionDiv.className = 'option';
+        optionDiv.textContent = option.text;
+        optionDiv.onclick = function() {
+          selectOption(optIndex, option.value);
+        };
+
+        // 如果之前选过，显示选中状态
+        if (answers[index] && answers[index].value === option.value) {
+          optionDiv.classList.add('selected');
+        }
+
+        optionsContainer.appendChild(optionDiv);
+      });
+
+      // 更新按钮状态
+      updateButtons();
+    }
+
+    // 选择选项
+    function selectOption(optionIndex, value) {
+      const question = questions[currentIndex];
+
+      // 保存答案
+      answers[currentIndex] = {
+        questionId: question.id,
+        value: value
+      };
+
+      // 更新选项样式
+      const options = document.querySelectorAll('.option');
+      options.forEach((opt, idx) => {
+        if (idx === optionIndex) {
+          opt.classList.add('selected');
+        } else {
+          opt.classList.remove('selected');
+        }
+      });
+
+      // 更新按钮状态
+      updateButtons();
+    }
+
+    // 上一题
+    function prevQuestion() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        showQuestion(currentIndex);
+      }
+    }
+
+    // 下一题或提交
+    function nextQuestion() {
+      if (currentIndex < questions.length - 1) {
+        currentIndex++;
+        showQuestion(currentIndex);
+      } else {
+        // 最后一题，提交答案
+        submitAnswers();
+      }
+    }
+
+    // 更新按钮状态
+    function updateButtons() {
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+
+      // 上一题按钮
+      prevBtn.disabled = currentIndex === 0;
+
+      // 下一题按钮
+      if (answers[currentIndex]) {
+        nextBtn.disabled = false;
+        if (currentIndex === questions.length - 1) {
+          nextBtn.textContent = '提交答案';
+        } else {
+          nextBtn.textContent = '下一题';
+        }
+      } else {
+        nextBtn.disabled = true;
+      }
+    }
+
+    // 提交答案
+    async function submitAnswers() {
+      // 检查是否所有问题都回答了
+      const unanswered = answers.findIndex(ans => ans === null);
+      if (unanswered !== -1) {
+        alert(`请回答第 ${unanswered + 1} 题`);
+        currentIndex = unanswered;
+        showQuestion(currentIndex);
+        return;
+      }
+
+      // 获取舌苔数据
+      const tongueData = JSON.parse(localStorage.getItem('tongueData'));
+      if (!tongueData) {
+        alert('舌苔数据丢失，请重新填写');
+        window.location.href = 'tongue.html';
+        return;
+      }
+
+      // 显示加载状态
+      document.getElementById('nextBtn').textContent = '分析中...';
+      document.getElementById('nextBtn').disabled = true;
+
+      try {
+        // 发送到后端分析
+        const response = await fetch('/api/constitution/analyze', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            tongueData: tongueData,
+            questionnaireData: answers
+          })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          // 保存结果
+          localStorage.setItem('analysisResult', JSON.stringify(result.data));
+          // 跳转到结果页
+          window.location.href = 'result.html';
+        } else {
+          alert('分析失败：' + result.message);
+          document.getElementById('nextBtn').textContent = '提交答案';
+          document.getElementById('nextBtn').disabled = false;
+        }
+      } catch (error) {
+        console.error('提交失败:', error);
+        alert('提交失败，请检查网络连接');
+        document.getElementById('nextBtn').textContent = '提交答案';
+        document.getElementById('nextBtn').disabled = false;
+      }
+    }
+  </script>
+</body>
+</html>

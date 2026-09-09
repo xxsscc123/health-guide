@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>舌苔分析 - 中医体质健康指南</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="container">
+    <!-- 头部 -->
+    <header class="header">
+      <h1>舌苔分析</h1>
+      <p class="subtitle">第一步：观察舌苔特征</p>
+    </header>
+
+    <!-- 主要内容 -->
+    <main class="main-content">
+      <div class="form-section">
+        <!-- 指导说明 -->
+        <div class="tongue-guide">
+          <h3>📋 如何观察舌苔？</h3>
+          <ul>
+            <li>在自然光线下观察</li>
+            <li>伸舌要自然，不要过度用力</li>
+            <li>早晨刷牙前观察最准确</li>
+            <li>进食、饮水后30分钟再观察</li>
+          </ul>
+        </div>
+
+        <!-- 舌苔特征表单 -->
+        <form id="tongueForm">
+          <div class="form-group">
+            <label for="color">舌色（舌体的颜色）</label>
+            <select id="color" name="color" required>
+              <option value="">请选择</option>
+              <option value="淡白">淡白色 - 颜色较淡，没有血色</option>
+              <option value="淡红">淡红色 - 淡红润泽（正常）</option>
+              <option value="红">红色 - 颜色较红</option>
+              <option value="绛红">绛红色 - 深红色</option>
+              <option value="青紫">青紫色 - 发青或发紫</option>
+              <option value="暗红">暗红色 - 红而暗</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="coating">苔色（舌面上的苔的颜色）</label>
+            <select id="coating" name="coating" required>
+              <option value="">请选择</option>
+              <option value="白">白色 - 舌苔呈白色</option>
+              <option value="黄">黄色 - 舌苔呈黄色</option>
+              <option value="灰黑">灰黑色 - 舌苔呈灰色或黑色</option>
+              <option value="少苔">少苔 - 舌苔很薄，几乎看不见</option>
+              <option value="无苔">无苔 - 舌面光滑，没有舌苔</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="quality">苔质（舌苔的厚薄和性质）</label>
+            <select id="quality" name="quality" required>
+              <option value="">请选择</option>
+              <option value="薄">薄苔 - 能透过舌苔看到舌体</option>
+              <option value="厚">厚苔 - 不能透过舌苔看到舌体</option>
+              <option value="腻">腻苔 - 舌苔颗粒细腻，如涂抹一层油脂</option>
+              <option value="腐">腐苔 - 舌苔颗粒粗大疏松</option>
+              <option value="厚腻">厚腻 - 又厚又腻</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="body">舌体（舌头的形状）</label>
+            <select id="body" name="body" required>
+              <option value="">请选择</option>
+              <option value="正常">正常 - 大小适中</option>
+              <option value="胖大">胖大 - 舌体肥大，边缘有齿痕</option>
+              <option value="瘦薄">瘦薄 - 舌体瘦小，比较薄</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="crack">裂纹（舌面是否有裂纹）</label>
+            <select id="crack" name="crack" required>
+              <option value="">请选择</option>
+              <option value="无">无裂纹</option>
+              <option value="有">有裂纹 - 舌面有明显裂纹</option>
+            </select>
+          </div>
+
+          <!-- 按钮 -->
+          <div class="button-group">
+            <button type="button" class="btn-secondary" onclick="goBack()">
+              返回首页
+            </button>
+            <button type="submit" class="btn-primary">
+              下一步：问卷调查
+            </button>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+      <p>提示：舌苔分析仅作为参考，最终判定需结合问卷调查</p>
+    </footer>
+  </div>
+
+  <script>
+    // 表单提交
+    document.getElementById('tongueForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // 收集表单数据
+      const tongueData = {
+        color: document.getElementById('color').value,
+        coating: document.getElementById('coating').value,
+        quality: document.getElementById('quality').value,
+        body: document.getElementById('body').value,
+        crack: document.getElementById('crack').value
+      };
+
+      // 保存到本地存储
+      localStorage.setItem('tongueData', JSON.stringify(tongueData));
+
+      // 跳转到问卷页面
+      window.location.href = 'questionnaire.html';
+    });
+
+    function goBack() {
+      window.location.href = 'index.html';
+    }
+  </script>
+</body>
+</html>
