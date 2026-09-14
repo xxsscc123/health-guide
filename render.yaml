@@ -3,7 +3,7 @@ services:
     name: health-guide
     env: node
     buildCommand: npm install
-    startCommand: npm start
+    startCommand: node backend/server.js
     envVars:
       - key: NODE_ENV
         value: production
